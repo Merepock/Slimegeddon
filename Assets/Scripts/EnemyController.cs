@@ -67,4 +67,11 @@ public class EnemyController : MonoBehaviour
             StartCoroutine(stuckToWall());
         }
     }
+
+    public void AddScore()
+    {
+        GameObject thePlayer = GameObject.Find("Player");
+        PlayerController playerScore = thePlayer.GetComponent<PlayerController>();
+        playerScore.score += this.KillScore;
+    }
 }

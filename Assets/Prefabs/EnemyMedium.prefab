@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 6226985783291765967}
   - component: {fileID: 6226985783291765964}
   - component: {fileID: 7692477887991624515}
-  - component: {fileID: 1897471876196660046}
   - component: {fileID: 1962834001572334648}
   - component: {fileID: 5918603826327233298}
   - component: {fileID: 5949903459398046793}
+  - component: {fileID: -7162919894702594519}
   m_Layer: 10
   m_Name: EnemyMedium
   m_TagString: Enemy
@@ -106,20 +106,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4096
   enemyHit: {fileID: 0}
---- !u!114 &1897471876196660046
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6226985783291765966}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a91ed0289d86c34aba614ae987801bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  small: {fileID: 4354771514232315829, guid: 83f6d2096fab24b4aae44fbc23ec9974, type: 3}
-  splat: {fileID: 5745808793150121622, guid: 169a458f292889e4baed19c07d313ee8, type: 3}
 --- !u!58 &1962834001572334648
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -254,3 +240,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-7162919894702594519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6226985783291765966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0554daa1ea60200498e498d299ad9677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  childSlime: {fileID: 4354771514232315829, guid: 83f6d2096fab24b4aae44fbc23ec9974,
+    type: 3}
+  splat: {fileID: 5745808793150121622, guid: 169a458f292889e4baed19c07d313ee8, type: 3}

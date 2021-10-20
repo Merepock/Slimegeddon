@@ -16,15 +16,8 @@ public class DestroySmall : MonoBehaviour
         if(other.gameObject.CompareTag("Bullet"))
         {
             Instantiate(splat, transform.position, transform.rotation);
-            AddScore();
+            smallStats.AddScore();
             Destroy(gameObject);
         }
-    }
-
-    void AddScore()
-    {
-        GameObject thePlayer = GameObject.Find("Player");
-        PlayerController playerScore = thePlayer.GetComponent<PlayerController>();
-        playerScore.score += smallStats.KillScore;
     }
 }
