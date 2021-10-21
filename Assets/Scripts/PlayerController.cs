@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     private float nextFire = 0.0f;
     private Rigidbody2D rb2d;
     private bool CanTakeDamage;
+    private Coroutine temporaryImmunity = null;
 
     private IEnumerator tempImmune(float timer)
     {
@@ -150,7 +151,7 @@ public class PlayerController : MonoBehaviour
                     playerHurtSound();
                     Destroy(collision.gameObject);
                     CanTakeDamage = false; //Player will stop taking damage.
-                    StartCoroutine(tempImmune(2.0f));
+                    temporaryImmunity = StartCoroutine(tempImmune(2.0f));
                 }
                 
                 if (health == 0)
@@ -176,10 +177,15 @@ public class PlayerController : MonoBehaviour
 
         if (collision.gameObject.CompareTag("GhostPickup"))
         {
+            if(temporaryImmunity != null)
+            {
+                StopCoroutine(temporaryImmunity);
+            }
             ghostSound();
             Destroy(collision.gameObject);
             this.GetComponent<Collider2D>().enabled = false;
-            StartCoroutine(tempImmune(12.0f));
+            temporaryImmunity = StartCoroutine(tempImmune(12.0f));
+                        
         }
     }
 }
