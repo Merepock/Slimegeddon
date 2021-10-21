@@ -10,17 +10,15 @@ public class PlayerController : MonoBehaviour
     public GameObject GameOverScreen, projectile;
     public int score, health, currScore;
     public float playerSpeed, shootVolume;
-    public float fireRate = 0.18f;
+    public float fireRate = 0.15f;
     private float nextFire = 0.0f;
     private Rigidbody2D rb2d;
-    private bool CanTakeDamage = true;
-    public float delayTimer = 2.0f;
+    private bool CanTakeDamage;
 
-    private IEnumerator tempImmune()
+    private IEnumerator tempImmune(float timer)
     {
-        CanTakeDamage = false; //Player will stop taking damage.
         this.GetComponent<SpriteRenderer>().color = new Color(0, 132, 1, 0.5F); //Dark shade of green, turns transparent
-        yield return new WaitForSeconds(delayTimer); //Player will be immune to damage for 2 seconds.
+        yield return new WaitForSeconds(timer); //Player will be immune to damage for 2 seconds.
         this.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 255); //Default sprite colours, maximum opacity
         this.GetComponent<Collider2D>().enabled = true;
         CanTakeDamage = true; //Player can take damage again..
@@ -35,6 +33,7 @@ public class PlayerController : MonoBehaviour
         health = 5;
         HealthText.text = "HP: " + health.ToString ();
         score = 0;
+        CanTakeDamage = true;
     }
 
     void FixedUpdate()
@@ -144,8 +143,9 @@ public class PlayerController : MonoBehaviour
                     health -= 1;
                     playerHurtSound();
                     Destroy(collision.gameObject);
-                    this.GetComponent<Collider2D>().enabled = false;
-                    StartCoroutine(tempImmune());
+                    CanTakeDamage = false; //Player will stop taking damage.
+                    //this.GetComponent<Collider2D>().enabled = false;
+                    StartCoroutine(tempImmune(2.0f));
                 }
                 
                 if (health == 0)
@@ -155,7 +155,10 @@ public class PlayerController : MonoBehaviour
                 }                
             }                      
         } 
-        
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
         if (collision.gameObject.CompareTag("HealthPickup"))
         {
             healSound();
