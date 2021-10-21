@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpawnPowerup : MonoBehaviour
 {
     public float spawnTimer = 20.0f;
-    public GameObject heartCapsule, player;
+    public GameObject heartCapsule, ghostPowerup, player;
     private PlayerController playerStats;
 
     void Start()
@@ -20,8 +20,18 @@ public class SpawnPowerup : MonoBehaviour
             spawnTimer -= Time.deltaTime;
             if (spawnTimer <= 0)
             {
-                GameObject powerUp = Instantiate(heartCapsule, new Vector2(Random.Range(-9, 9), Random.Range(-5, 5)), transform.rotation);
-                spawnTimer += 20.0f;
+                int chance = Random.Range(0, 20);
+                if (chance % 4 == 0)
+                {
+                    GameObject powerUp = Instantiate(ghostPowerup, new Vector2(Random.Range(-9, 9), Random.Range(-5, 5)), transform.rotation);
+                    spawnTimer += 20.0f;
+                }
+                else
+                {
+                    GameObject powerUp = Instantiate(heartCapsule, new Vector2(Random.Range(-9, 9), Random.Range(-5, 5)), transform.rotation);
+                    spawnTimer += 20.0f;
+                }
+
             }
             break;
         }

@@ -131,6 +131,12 @@ public class PlayerController : MonoBehaviour
         SFX.PlayOneShot(SFX.clip);
     }
 
+    void ghostSound()
+    {
+        SFX.clip = effects[4];
+        SFX.PlayOneShot(SFX.clip);
+    }
+
 
     void OnCollisionEnter2D(Collision2D collision)
     {
@@ -144,7 +150,6 @@ public class PlayerController : MonoBehaviour
                     playerHurtSound();
                     Destroy(collision.gameObject);
                     CanTakeDamage = false; //Player will stop taking damage.
-                    //this.GetComponent<Collider2D>().enabled = false;
                     StartCoroutine(tempImmune(2.0f));
                 }
                 
@@ -167,6 +172,14 @@ public class PlayerController : MonoBehaviour
             {               
                 health += 1;                
             }   
+        }
+
+        if (collision.gameObject.CompareTag("GhostPickup"))
+        {
+            ghostSound();
+            Destroy(collision.gameObject);
+            this.GetComponent<Collider2D>().enabled = false;
+            StartCoroutine(tempImmune(12.0f));
         }
     }
 }

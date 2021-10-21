@@ -552,6 +552,8 @@ MonoBehaviour:
   spawnTimer: 20
   heartCapsule: {fileID: 1837928371468244413, guid: 53a5432a0670878488aa1453497fc7d8,
     type: 3}
+  ghostPowerup: {fileID: 4565254073267881145, guid: 9115491b361268342b6a830bdf6bc167,
+    type: 3}
   player: {fileID: 879895956}
 --- !u!1 &169570965
 GameObject:
@@ -1721,6 +1723,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9f8b8c755ea3f0a488cef0df62a7e7ef, type: 3}
   - {fileID: 8300000, guid: 85a71a2be2bf9f84dae23cd4f9aa9658, type: 3}
   - {fileID: 8300000, guid: 3583c188f1f66904ea0c0bda217448f3, type: 3}
+  - {fileID: 8300000, guid: d46cc6b66f4fe2c49856870d1f1e7177, type: 3}
   ScoreText: {fileID: 1956104390}
   HealthText: {fileID: 169570967}
   GameOverScreen: {fileID: 656200560}

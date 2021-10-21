@@ -16,6 +16,7 @@ TagManager:
   - Background
   - Statistic
   - HealthPickup
+  - GhostPickup
   layers:
   - Default
   - TransparentFX
