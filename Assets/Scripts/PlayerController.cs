@@ -10,8 +10,8 @@ public class PlayerController : MonoBehaviour
     public GameObject GameOverScreen, projectile;
     public int score, health, currScore;
     public float playerSpeed, shootVolume;
-    public float fireRate = 0.15f;
-    private float nextFire = 0.0f;
+    //public float fireRate = 0.15f;
+    //private float nextFire = 0.0f;
     private Rigidbody2D rb2d;
     private bool CanTakeDamage;
     private Coroutine temporaryImmunity = null;
@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
 
         if (health > 0)
         {
-            if (Input.GetMouseButtonDown(0) && Time.time > nextFire)
+            if (Input.GetMouseButtonDown(0)/* && Time.time > nextFire*/)
             {
                 shoot(transform.rotation);
             }
@@ -103,7 +103,7 @@ public class PlayerController : MonoBehaviour
     void shoot(Quaternion angle)
     {
         shootSound();
-        nextFire = Time.time + fireRate;
+        //nextFire = Time.time + fireRate;
         Instantiate(projectile, transform.position, angle);
     }
 
