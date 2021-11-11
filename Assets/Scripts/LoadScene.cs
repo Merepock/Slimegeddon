@@ -1,10 +1,11 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ReturnToMenu : MonoBehaviour {
-    public void backToMenu(int i)
+public class LoadScene : MonoBehaviour
+{
+    public void load(int i) 
     {
         SceneManager.LoadScene(i);
     }
