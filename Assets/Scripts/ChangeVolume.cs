@@ -7,15 +7,20 @@ using UnityEngine.UI;
 public class ChangeVolume : MonoBehaviour
 {
     public AudioMixer mixer;
-    public Slider MusicSlider;
+    public Slider VolumeSlider;
 
     void Start()
     {
-        MusicSlider = GetComponent<Slider>();           
+        VolumeSlider = GetComponent<Slider>();           
     }
 
-    public void SetVolume()
+    public void SetBGMVolume()
     {
-        mixer.SetFloat("BGM", Mathf.Log10(MusicSlider.value) * 20); //Equates to a value between 0 and -80 decibels
+        mixer.SetFloat("BGM", Mathf.Log10(VolumeSlider.value) * 20); //Equates to a value between 0 and -80 decibels
+    }
+
+    public void setSFXVolune()
+    {
+        mixer.SetFloat("SFX", Mathf.Log10(VolumeSlider.value) * 20);
     }
 }

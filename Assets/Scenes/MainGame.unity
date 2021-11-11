@@ -1734,7 +1734,6 @@ MonoBehaviour:
   currScore: 0
   playerSpeed: 5
   shootVolume: 0.5
-  fireRate: 0.18
 --- !u!50 &879895960
 Rigidbody2D:
   serializedVersion: 4
