@@ -44,11 +44,12 @@ public class PlayerController : MonoBehaviour
         float Horizontal = Input.GetAxis("Horizontal");
         float Vertical = Input.GetAxis("Vertical");
         rb2d.velocity = new Vector2(Horizontal, Vertical) * playerSpeed;
-        Debug.Log(rb2d.velocity);
-        if (rb2d.velocity.x != 0 || rb2d.velocity.y != 0) {
+        if (rb2d.velocity.x != 0 || rb2d.velocity.y != 0) 
+        {
             anim.SetBool("isMoving", true);
         }
-        else {
+        else 
+        {
             anim.SetBool("isMoving", false);
         }
     }
