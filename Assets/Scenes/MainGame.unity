@@ -697,11 +697,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnTimer: 20
+  powerUp: {fileID: 0}
   heartCapsule: {fileID: 1837928371468244413, guid: 53a5432a0670878488aa1453497fc7d8,
     type: 3}
   ghostPowerup: {fileID: 4565254073267881145, guid: 9115491b361268342b6a830bdf6bc167,
     type: 3}
-  player: {fileID: 879895956}
+  wipePowerup: {fileID: 1526977370841719472, guid: 9f616b6c2a861e743a8f28616e0af7a9,
+    type: 3}
 --- !u!114 &149381777
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1964,6 +1966,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 85a71a2be2bf9f84dae23cd4f9aa9658, type: 3}
   - {fileID: 8300000, guid: 3583c188f1f66904ea0c0bda217448f3, type: 3}
   - {fileID: 8300000, guid: d46cc6b66f4fe2c49856870d1f1e7177, type: 3}
+  - {fileID: 8300000, guid: b2dbcbf93eb1edc4aa9579833df4f484, type: 3}
   ScoreText: {fileID: 1956104390}
   HealthText: {fileID: 169570967}
   GameOverScreen: {fileID: 656200560}
@@ -1974,6 +1977,7 @@ MonoBehaviour:
   currScore: 0
   playerSpeed: 5
   shootVolume: 0.5
+  explosionVolume: 1
 --- !u!50 &879895960
 Rigidbody2D:
   serializedVersion: 4

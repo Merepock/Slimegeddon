@@ -9,9 +9,7 @@ public class PlayerController : MonoBehaviour
     public Text ScoreText, HealthText;
     public GameObject GameOverScreen, projectile;
     public int score, health, currScore;
-    public float playerSpeed, shootVolume;
-    //public float fireRate = 0.15f;
-    //private float nextFire = 0.0f;
+    public float playerSpeed, shootVolume, explosionVolume;
     private Rigidbody2D rb2d;
     private bool CanTakeDamage;
     private Coroutine temporaryImmunity = null;
@@ -19,11 +17,11 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator tempImmune(float timer)
     {
-        this.GetComponent<SpriteRenderer>().color = new Color(0, 132, 1, 0.5F); //Dark shade of green, turns transparent
-        yield return new WaitForSeconds(timer); //Player will be immune to damage for 2 seconds.
-        this.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 255); //Default sprite colours, maximum opacity
+        this.GetComponent<SpriteRenderer>().color = new Color(0, 132, 1, 0.5F);
+        yield return new WaitForSeconds(timer);
+        this.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 255);
         this.GetComponent<Collider2D>().enabled = true;
-        CanTakeDamage = true; //Player can take damage again..
+        CanTakeDamage = true;
         yield break;
     }
 
@@ -67,7 +65,7 @@ public class PlayerController : MonoBehaviour
 
         if (health > 0)
         {
-            if (Input.GetMouseButtonDown(0)/* && Time.time > nextFire*/)
+            if (Input.GetMouseButtonDown(0))
             {
                 shoot(transform.rotation);
             }
@@ -101,6 +99,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private bool powerupActive () 
+    {
+        return true;
+    }
+
     void lookAtMouse()
     {
         Vector3 MousePos = Input.mousePosition;
@@ -113,8 +116,72 @@ public class PlayerController : MonoBehaviour
     void shoot(Quaternion angle)
     {
         shootSound();
-        //nextFire = Time.time + fireRate;
         Instantiate(projectile, transform.position, angle);
+    }
+
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {            
+            if (CanTakeDamage == true)
+            {
+                if (health > 0)
+                {
+                    health -= 1;
+                    playerHurtSound();
+                    Destroy(collision.gameObject);
+                    CanTakeDamage = false;
+                    temporaryImmunity = StartCoroutine(tempImmune(2.0f));
+                }
+                
+                if (health == 0)
+                {
+                    GameOverScreen.SetActive(true);
+                    gameObject.GetComponent<SpriteRenderer>().enabled = false;
+                }                
+            }                      
+        } 
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("HealthPickup"))
+        {
+            healSound();
+            Destroy(collision.gameObject);
+            if (health < 5)
+            {               
+                health += 1;                
+            }   
+        }
+
+        if (collision.gameObject.CompareTag("GhostPickup"))
+        {
+            if(temporaryImmunity != null)
+            {
+                StopCoroutine(temporaryImmunity);
+            }
+            ghostSound();
+            Destroy(collision.gameObject);
+            this.GetComponent<Collider2D>().enabled = false;
+            temporaryImmunity = StartCoroutine(tempImmune(12.0f));         
+        }
+
+        if (collision.gameObject.CompareTag("WipePickup"))
+        {
+            deathSound();
+            Destroy(collision.gameObject);
+            GameObject[] activeEnemies = GameObject.FindGameObjectsWithTag("Enemy");
+            if (activeEnemies.Length != 0)
+            {
+                for (int i = 0; i < activeEnemies.Length; i++)
+                {
+                    Destroy(activeEnemies[i]);
+                }
+            }
+            
+        }
     }
 
     void playerHurtSound()
@@ -148,55 +215,11 @@ public class PlayerController : MonoBehaviour
         SFX.PlayOneShot(SFX.clip);
     }
 
-
-    void OnCollisionEnter2D(Collision2D collision)
+    void deathSound()
     {
-        if (collision.gameObject.CompareTag("Enemy"))
-        {            
-            if (CanTakeDamage == true)
-            {
-                if (health > 0)
-                {
-                    health -= 1;
-                    playerHurtSound();
-                    Destroy(collision.gameObject);
-                    CanTakeDamage = false; //Player will stop taking damage.
-                    temporaryImmunity = StartCoroutine(tempImmune(2.0f));
-                }
-                
-                if (health == 0)
-                {
-                    GameOverScreen.SetActive(true); //Display the game over screen.
-                    gameObject.GetComponent<SpriteRenderer>().enabled = false; //Makes the player invisible
-                }                
-            }                      
-        } 
-    }
-
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("HealthPickup"))
-        {
-            healSound();
-            Destroy(collision.gameObject);
-            if (health < 5)
-            {               
-                health += 1;                
-            }   
-        }
-
-        if (collision.gameObject.CompareTag("GhostPickup"))
-        {
-            if(temporaryImmunity != null)
-            {
-                StopCoroutine(temporaryImmunity);
-            }
-            ghostSound();
-            Destroy(collision.gameObject);
-            this.GetComponent<Collider2D>().enabled = false;
-            temporaryImmunity = StartCoroutine(tempImmune(12.0f));
-                        
-        }
+        SFX.clip = effects[5];
+        SFX.volume = explosionVolume;
+        SFX.PlayOneShot(SFX.clip);
     }
 }
 
