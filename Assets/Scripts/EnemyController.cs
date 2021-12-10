@@ -5,11 +5,12 @@ using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour
 {
-    public int HitPoints, KillScore;
-    public float MoveSpeed;
+    public int hitPoints, killScore;
+    public float moveSpeed;
     public Rigidbody2D enemyRb;
     private LayerMask wall;
     public AudioSource enemyHit;
+    public GameObject splat;
     Vector2 prevVelocity;
 
     
@@ -36,12 +37,20 @@ public class EnemyController : MonoBehaviour
         enemyHit = GetComponent<AudioSource>();
         enemyRb = GetComponent<Rigidbody2D>();
         wall = LayerMask.GetMask("Ground");
-        enemyRb.velocity = transform.up * MoveSpeed; 
+        enemyRb.velocity = transform.up * moveSpeed; 
     }
 
     protected virtual void FixedUpdate()
     {
         prevVelocity = enemyRb.velocity;
+    }
+
+    void Update() 
+    {
+        if (hitPoints == 0) 
+        {
+            destroy();
+        }
     }
 
 
@@ -50,9 +59,9 @@ public class EnemyController : MonoBehaviour
         if (other.gameObject.CompareTag("Bullet"))
         {
             Destroy(other.gameObject);
-            if (HitPoints >= 1)
+            if (hitPoints > 0)
             {
-                HitPoints -= 1;
+                hitPoints -= 1;
                 enemyHit.Play();
             }
         }
@@ -68,10 +77,10 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    public void AddScore()
+    protected virtual void destroy() 
     {
-        GameObject thePlayer = GameObject.Find("Player");
-        PlayerController playerScore = thePlayer.GetComponent<PlayerController>();
-        playerScore.score += this.KillScore;
+        Instantiate(splat, transform.position, transform.rotation);
+        GameObject.Find("Player").GetComponent<PlayerController>().score += this.killScore;
+        Destroy(gameObject);
     }
 }

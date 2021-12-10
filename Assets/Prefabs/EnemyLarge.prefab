@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6793946004009199216}
   - component: {fileID: 6793946004009199217}
-  - component: {fileID: 3275586765795554763}
   - component: {fileID: 3585204376945447085}
   - component: {fileID: 7553791009246192217}
   - component: {fileID: 3850462629177112340}
@@ -87,25 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3275586765795554763
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6793946004009199219}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e2d294984338c545ac9ce063eb7a6f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HitPoints: 3
-  KillScore: 1250
-  MoveSpeed: 1
-  wall:
-    serializedVersion: 2
-    m_Bits: 4096
-  enemyHit: {fileID: 0}
 --- !u!114 &3585204376945447085
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,9 +98,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0554daa1ea60200498e498d299ad9677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitPoints: 3
+  killScore: 1000
+  moveSpeed: 1
+  enemyRb: {fileID: 0}
+  enemyHit: {fileID: 0}
+  splat: {fileID: 2156913234784902126, guid: aaf64fb7a3f24624b9336e9f6e5c4422, type: 3}
   childSlime: {fileID: 6226985783291765966, guid: dcf6ce9d6ab629949ab3218e7f481b0b,
     type: 3}
-  splat: {fileID: 2156913234784902126, guid: aaf64fb7a3f24624b9336e9f6e5c4422, type: 3}
 --- !u!58 &7553791009246192217
 CircleCollider2D:
   m_ObjectHideFlags: 0

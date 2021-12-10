@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: -8010701413513477840}
   - component: {fileID: -6809639817501937289}
   - component: {fileID: 316591450404800835}
-  - component: {fileID: -4689463724412689232}
   - component: {fileID: -4270627063636042219}
   m_Layer: 10
   m_Name: DangerSlime
@@ -221,19 +220,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &-4689463724412689232
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3303201617267644013}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dac5b67d2ae23804593a618e9bc5b01e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  splat: {fileID: 3795843038535286396, guid: 6042f3e5253f1e243be8d8ac8560420d, type: 3}
 --- !u!114 &-4270627063636042219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,8 +232,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e2c9ebcb81f1be419cf19ff62019fb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HitPoints: 1
-  KillScore: 1000
-  MoveSpeed: 4
+  hitPoints: 1
+  killScore: 750
+  moveSpeed: 4
   enemyRb: {fileID: 0}
   enemyHit: {fileID: 0}
+  splat: {fileID: 3795843038535286396, guid: 6042f3e5253f1e243be8d8ac8560420d, type: 3}

@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class DangerSlimeBehaviour : EnemyController
 {
-    // Update is called once per frame
     protected override void FixedUpdate()
     {
         Vector2 playerPos = GameObject.Find("Player").transform.position;
         Vector2 direction = new Vector2(playerPos.x - transform.position.x, playerPos.y - transform.position.y);
         transform.up = direction;
-        enemyRb.velocity = transform.up * MoveSpeed;
+        enemyRb.velocity = transform.up * moveSpeed;
     }
 
     protected override void OnCollisionEnter2D(Collision2D other)
