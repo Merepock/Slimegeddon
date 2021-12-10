@@ -7,14 +7,17 @@ public class Pause : MonoBehaviour
     bool paused = false;
     public GameObject pausePanel;
 
+    private PlayerController playerFunctions;
+
     void Start() 
     {
         Time.timeScale = 1.0f;
+        playerFunctions = GameObject.Find("Player").GetComponent<PlayerController>();
     }
 
     void Update() 
     {
-        if (Input.GetKeyDown("escape")) 
+        if (Input.GetKeyDown("escape") && (playerFunctions.health > 0)) 
         {
             paused = pause();
         }
@@ -26,14 +29,14 @@ public class Pause : MonoBehaviour
         {
             Time.timeScale = 0.0f;
             pausePanel.SetActive(true);
-            GameObject.Find("Player").GetComponent<PlayerController>().enabled = false;
+            playerFunctions.enabled = false;
             return true;
         }
         else
         {
             Time.timeScale = 1.0f;
             pausePanel.SetActive(false);
-            GameObject.Find("Player").GetComponent<PlayerController>().enabled = true;
+            playerFunctions.enabled = true;
             return false;
         }
     }
