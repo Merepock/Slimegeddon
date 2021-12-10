@@ -8,7 +8,7 @@ public class SpawnEnemies : MonoBehaviour
     public int ticks;
     public GameObject small, medium, large, danger, player;
     public GameObject[] ToSpawn;   
-    public List<Vector2> SpawnPoints;
+    public List<Vector2> SpawnPoints, Corners;
     public float IntervalTimer = 2.5f;
     private float CurrTimer = 2.5f; //This is added to the interval timer each time it ticks and will change during the game
     public PlayerController playerHP;
@@ -17,9 +17,14 @@ public class SpawnEnemies : MonoBehaviour
 
     void Start()
     {
-        WaveSize = 3; //initial size of enemy waves
-        ticks = 0; //counts how many times the interval timer has hit 0
-        sizes = 0; //Restricts to small enemies spawning only at the start of the game.
+        Corners.Add(new Vector2(10.0f, 6.0f));
+        Corners.Add(new Vector2(10.0f, 6.0f));
+        Corners.Add(new Vector2(-10.0f, 6.0f));
+        Corners.Add(new Vector2(-10.0f, -6.0f));
+
+        WaveSize = 3;
+        ticks = 0;
+        sizes = 0;
         ToSpawn[0] = small;
         ToSpawn[1] = medium;
         ToSpawn[2] = large;
@@ -36,14 +41,15 @@ public class SpawnEnemies : MonoBehaviour
             {
                 for (int i = 0; i < WaveSize; i++)
                 {
-                    SpawnPoints.Add(new Vector2(10.0f, (Random.Range(3.75f, -3.75f))));  //Right border of the screen
-                    SpawnPoints.Add(new Vector2(-10.0f, (Random.Range(3.75f, -3.75f))));  //Left border of the screen
-                    SpawnPoints.Add(new Vector2((Random.Range(7.5f, -7.5f)), 6.0f));  //Top border of the screen
-                    SpawnPoints.Add(new Vector2((Random.Range(7.5f, -7.5f)), -6.0f)); //Bottom border of the screen
+                    SpawnPoints.Add(new Vector2(10.0f, (Random.Range(3.75f, -3.75f))));
+                    SpawnPoints.Add(new Vector2(-10.0f, (Random.Range(3.75f, -3.75f))));
+                    SpawnPoints.Add(new Vector2((Random.Range(7.5f, -7.5f)), 6.0f));
+                    SpawnPoints.Add(new Vector2((Random.Range(7.5f, -7.5f)), -6.0f));
 
                     int n = Random.Range(0, SpawnPoints.Count);
                     Vector2 SpawnPos = SpawnPoints[n];
                     float UBAngle = 0.0f, LBAngle = 0.0f;
+
                     switch (n)
                     {
                         case 0:
@@ -63,28 +69,30 @@ public class SpawnEnemies : MonoBehaviour
                             UBAngle = 390.0f;
                             break;
                     }
+                    
                     Quaternion rotation = Quaternion.Euler(0, 0, Random.Range(LBAngle, UBAngle));
                     GameObject Enemy = Instantiate(ToSpawn[UnityEngine.Random.Range(0, sizes)], SpawnPos, rotation);
-                    Physics2D.IgnoreCollision(GameObject.FindWithTag("Wall").GetComponent<Collider2D>(), Enemy.GetComponent<Collider2D>(), true);
+                    setIgnoreWalls(Enemy);
                     SpawnPoints.Clear();
                 }
 
                 ticks += 1;
 
-                switch (ticks) //Select statement which will increase the upper bound of the range of the ToSpawn index
+                switch (ticks)
                 {
                     case 8:
-                        sizes = 2; //Medium enemies will be allowed to spawn
+                        sizes = 2;
                         break;
                     case 30:
-                        sizes = 3; //Large enemies will be allowed to spawn
-                        CurrTimer += 1.0f; //Interval increases when large enemies spawn.
+                        sizes = 3;
+                        CurrTimer += 1.0f;
                         break;
                 }
+
                 if (ticks % 30 == 0)
                 {
-                    WaveSize += 1; //The size of the enemy waves increases with every multiple of 30
-                    CurrTimer += 1.0f; //Interval timer increases with the wave size
+                    WaveSize += 1;
+                    CurrTimer += 1.0f;
                 }
 
                 if (ticks > 20)
@@ -94,15 +102,28 @@ public class SpawnEnemies : MonoBehaviour
 
                     if (specialSpawnChance == 1)
                     {
-                        specialEnemy = Instantiate(danger, new Vector3(-10.0f, 6.0f, 0), transform.rotation);
-                        Physics2D.IgnoreCollision(GameObject.FindWithTag("Wall").GetComponent<Collider2D>(), specialEnemy.GetComponent<Collider2D>(), true);
+                        specialEnemy = SpawnDangerSlime();
+                        setIgnoreWalls(specialEnemy);
                     }
                 }
 
-                IntervalTimer = CurrTimer; //Reset the timer for another interval
+                IntervalTimer = CurrTimer;
             }
             break;
         }
+    }
+
+    private GameObject SpawnDangerSlime ()
+    {
+        int n = Random.Range(0, Corners.Count);
+        Vector2 SpawnPos = Corners[n];
+
+        return Instantiate(danger, SpawnPos, transform.rotation);
+    }
+
+    private void setIgnoreWalls (GameObject o) 
+    {
+        Physics2D.IgnoreCollision(GameObject.FindWithTag("Wall").GetComponent<Collider2D>(), o.GetComponent<Collider2D>(), true);
     }
 }
 
