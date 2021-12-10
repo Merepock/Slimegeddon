@@ -6,7 +6,7 @@ public class SpawnEnemies : MonoBehaviour
 {
     private int WaveSize, sizes;
     public int ticks;
-    public GameObject small, medium, large, player;
+    public GameObject small, medium, large, danger, player;
     public GameObject[] ToSpawn;   
     public List<Vector2> SpawnPoints;
     public float IntervalTimer = 2.5f;
@@ -68,7 +68,9 @@ public class SpawnEnemies : MonoBehaviour
                     Physics2D.IgnoreCollision(GameObject.FindWithTag("Wall").GetComponent<Collider2D>(), Enemy.GetComponent<Collider2D>(), true);
                     SpawnPoints.Clear();
                 }
+
                 ticks += 1;
+
                 switch (ticks) //Select statement which will increase the upper bound of the range of the ToSpawn index
                 {
                     case 8:
@@ -84,6 +86,19 @@ public class SpawnEnemies : MonoBehaviour
                     WaveSize += 1; //The size of the enemy waves increases with every multiple of 30
                     CurrTimer += 1.0f; //Interval timer increases with the wave size
                 }
+
+                if (ticks > 20)
+                {
+                    GameObject specialEnemy;
+                    int specialSpawnChance = Random.Range(0, 6);
+
+                    if (specialSpawnChance == 1)
+                    {
+                        specialEnemy = Instantiate(danger, new Vector3(-10.0f, 6.0f, 0), transform.rotation);
+                        Physics2D.IgnoreCollision(GameObject.FindWithTag("Wall").GetComponent<Collider2D>(), specialEnemy.GetComponent<Collider2D>(), true);
+                    }
+                }
+
                 IntervalTimer = CurrTimer; //Reset the timer for another interval
             }
             break;

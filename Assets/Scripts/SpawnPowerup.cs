@@ -20,7 +20,7 @@ public class SpawnPowerup : MonoBehaviour
             spawnTimer -= Time.deltaTime;
             if (spawnTimer <= 0)
             {
-                int chance = Random.Range(0, 20);
+                int chance = Random.Range(0, 21);
                 if (chance % 10 == 0)
                 {
                     powerUp = Instantiate(wipePowerup, new Vector2(Random.Range(-9, 9), Random.Range(-5, 5)), transform.rotation);

@@ -69,7 +69,13 @@ public class PlayerController : MonoBehaviour
             {
                 shoot(transform.rotation);
             }
-        }      
+        }
+
+        if (health == 0)
+        {
+            GameOverScreen.SetActive(true);
+            gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        }       
 
         checkOutOfBounds();
     }
@@ -133,13 +139,7 @@ public class PlayerController : MonoBehaviour
                     Destroy(collision.gameObject);
                     CanTakeDamage = false;
                     temporaryImmunity = StartCoroutine(tempImmune(2.0f));
-                }
-                
-                if (health == 0)
-                {
-                    GameOverScreen.SetActive(true);
-                    gameObject.GetComponent<SpriteRenderer>().enabled = false;
-                }                
+                }              
             }                      
         } 
     }

@@ -7,8 +7,8 @@ public class EnemyController : MonoBehaviour
 {
     public int HitPoints, KillScore;
     public float MoveSpeed;
-    private Rigidbody2D enemyRb;
-    public LayerMask wall;
+    public Rigidbody2D enemyRb;
+    private LayerMask wall;
     public AudioSource enemyHit;
     Vector2 prevVelocity;
 
@@ -30,7 +30,7 @@ public class EnemyController : MonoBehaviour
     }
     
 
-    void Start()
+    protected virtual void Start()
     {
         StartCoroutine(travelThroughBorder());
         enemyHit = GetComponent<AudioSource>();
@@ -39,7 +39,7 @@ public class EnemyController : MonoBehaviour
         enemyRb.velocity = transform.up * MoveSpeed; 
     }
 
-    void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         prevVelocity = enemyRb.velocity;
     }
@@ -58,7 +58,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter2D(Collision2D other)
+    protected virtual void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Wall"))
         {
