@@ -42,35 +42,14 @@ public class SpawnEnemies : MonoBehaviour
                 for (int i = 0; i < WaveSize; i++)
                 {
                     SpawnPoints.Add(new Vector2(10.0f, (Random.Range(3.75f, -3.75f))));
-                    SpawnPoints.Add(new Vector2(-10.0f, (Random.Range(3.75f, -3.75f))));
                     SpawnPoints.Add(new Vector2((Random.Range(7.5f, -7.5f)), 6.0f));
+                    SpawnPoints.Add(new Vector2(-10.0f, (Random.Range(3.75f, -3.75f))));
                     SpawnPoints.Add(new Vector2((Random.Range(7.5f, -7.5f)), -6.0f));
 
                     int n = Random.Range(0, SpawnPoints.Count);
                     Vector2 SpawnPos = SpawnPoints[n];
-                    float UBAngle = 0.0f, LBAngle = 0.0f;
-
-                    switch (n)
-                    {
-                        case 0:
-                            LBAngle = 60.0f;
-                            UBAngle = 120.0f;
-                            break;
-                        case 1:
-                            LBAngle = 240.0f;
-                            UBAngle = 300.0f;
-                            break;
-                        case 2:
-                            LBAngle = 150.0f;
-                            UBAngle = 210.0f;
-                            break;
-                        case 3:
-                            LBAngle = 330.0f;
-                            UBAngle = 390.0f;
-                            break;
-                    }
                     
-                    Quaternion rotation = Quaternion.Euler(0, 0, Random.Range(LBAngle, UBAngle));
+                    Quaternion rotation = Quaternion.Euler(0, 0, Random.Range(60 + (n * 90), 120 + (n * 90)));
                     GameObject Enemy = Instantiate(ToSpawn[UnityEngine.Random.Range(0, sizes)], SpawnPos, rotation);
                     setIgnoreWalls(Enemy);
                     SpawnPoints.Clear();
@@ -85,14 +64,14 @@ public class SpawnEnemies : MonoBehaviour
                         break;
                     case 30:
                         sizes = 3;
-                        CurrTimer += 1.0f;
+                        CurrTimer += 0.5f;
                         break;
                 }
 
-                if (ticks % 30 == 0)
+                if (ticks % 25 == 0)
                 {
                     WaveSize += 1;
-                    CurrTimer += 1.0f;
+                    CurrTimer += 0.5f;
                 }
 
                 if (ticks > 20)
@@ -129,37 +108,16 @@ public class SpawnEnemies : MonoBehaviour
     private GameObject SpawnBombSlime()
     {
         SpawnPoints.Add(new Vector2(10.0f, (Random.Range(3.75f, -3.75f))));
-                    SpawnPoints.Add(new Vector2(-10.0f, (Random.Range(3.75f, -3.75f))));
-                    SpawnPoints.Add(new Vector2((Random.Range(7.5f, -7.5f)), 6.0f));
-                    SpawnPoints.Add(new Vector2((Random.Range(7.5f, -7.5f)), -6.0f));
+        SpawnPoints.Add(new Vector2((Random.Range(7.5f, -7.5f)), 6.0f));
+        SpawnPoints.Add(new Vector2(-10.0f, (Random.Range(3.75f, -3.75f))));
+        SpawnPoints.Add(new Vector2((Random.Range(7.5f, -7.5f)), -6.0f));
 
-                    int n = Random.Range(0, SpawnPoints.Count);
-                    Vector2 SpawnPos = SpawnPoints[n];
-                    SpawnPoints.Clear();
-                    float UBAngle = 0.0f, LBAngle = 0.0f;
-
-                    switch (n)
-                    {
-                        case 0:
-                            LBAngle = 60.0f;
-                            UBAngle = 120.0f;
-                            break;
-                        case 1:
-                            LBAngle = 240.0f;
-                            UBAngle = 300.0f;
-                            break;
-                        case 2:
-                            LBAngle = 150.0f;
-                            UBAngle = 210.0f;
-                            break;
-                        case 3:
-                            LBAngle = 330.0f;
-                            UBAngle = 390.0f;
-                            break;
-                    }
+        int n = Random.Range(0, SpawnPoints.Count);
+        Vector2 SpawnPos = SpawnPoints[n];
+        SpawnPoints.Clear();
                     
-                    Quaternion rotation = Quaternion.Euler(0, 0, Random.Range(LBAngle, UBAngle));
-                    return  Instantiate(bomb, SpawnPos, rotation);              
+        Quaternion rotation = Quaternion.Euler(0, 0, Random.Range(60 + (n * 90), 120 + (n * 90)));
+        return  Instantiate(bomb, SpawnPos, rotation);              
     }
 
     private void setIgnoreWalls (GameObject o) 
