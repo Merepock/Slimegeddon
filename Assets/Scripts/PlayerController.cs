@@ -6,12 +6,12 @@ public class PlayerController : MonoBehaviour
 {
     private AudioSource SFX;
     public AudioClip[] effects;
-    public Text ScoreText, HealthText;
-    public GameObject GameOverScreen, projectile;
-    public int score, health, currScore;
+    public Text ScoreText, HealthText, MissileNumber;
+    public GameObject GameOverScreen, projectile, missile;
+    public int score, health, currScore, missileCount;
     public float playerSpeed, shootVolume, explosionVolume;
     private Rigidbody2D rb2d;
-    private bool CanTakeDamage;
+    public bool CanTakeDamage;
     private Coroutine temporaryImmunity = null;
     private Animator anim;
 
@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
         SFX = GetComponent<AudioSource>();
         rb2d = GetComponent<Rigidbody2D>();
         health = 5;
+        missileCount = 5;
         HealthText.text = "HP: " + health.ToString ();
         score = 0;
         CanTakeDamage = true;
@@ -62,12 +63,18 @@ public class PlayerController : MonoBehaviour
         }
         ScoreText.text = "Score: " + score.ToString();
         HealthText.text = "HP: " + health.ToString();
+        MissileNumber.text = "X" + missileCount.ToString();
 
         if (health > 0)
         {
             if (Input.GetMouseButtonDown(0))
             {
-                shoot(transform.rotation);
+                shootBullet(transform.rotation);
+            }
+            if (Input.GetMouseButtonDown(1) && missileCount > 0)
+            {
+                shootMissile(transform.rotation);
+                missileCount--;
             }
         }
 
@@ -119,10 +126,24 @@ public class PlayerController : MonoBehaviour
         transform.up = direction;
     }
 
-    void shoot(Quaternion angle)
+    void shootBullet(Quaternion angle)
     {
         shootSound();
         Instantiate(projectile, transform.position, angle);
+    }
+
+    void shootMissile(Quaternion angle)
+    {
+        missileSound();
+        Instantiate(missile, transform.position, angle);
+    }
+
+    public void takeDamage()
+    {
+        health -= 1;
+        playerHurtSound();
+        CanTakeDamage = false;
+        temporaryImmunity = StartCoroutine(tempImmune(2.0f));
     }
 
 
@@ -134,11 +155,8 @@ public class PlayerController : MonoBehaviour
             {
                 if (health > 0)
                 {
-                    health -= 1;
-                    playerHurtSound();
+                    takeDamage();
                     Destroy(collision.gameObject);
-                    CanTakeDamage = false;
-                    temporaryImmunity = StartCoroutine(tempImmune(2.0f));
                 }              
             }                      
         } 
@@ -182,6 +200,13 @@ public class PlayerController : MonoBehaviour
             }
             
         }
+
+        if (collision.gameObject.CompareTag("MissilePickup"))
+        {
+            healSound();
+            Destroy(collision.gameObject);
+            missileCount += Random.Range(3, 6);
+        }
     }
 
     void playerHurtSound()
@@ -219,6 +244,13 @@ public class PlayerController : MonoBehaviour
     {
         SFX.clip = effects[5];
         SFX.volume = explosionVolume;
+        SFX.PlayOneShot(SFX.clip);
+    }
+
+    void missileSound()
+    {
+        SFX.clip = effects[6];
+        SFX.volume = shootVolume;
         SFX.PlayOneShot(SFX.clip);
     }
 }

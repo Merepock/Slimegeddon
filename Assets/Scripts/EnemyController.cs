@@ -53,7 +53,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-
+/*
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Bullet"))
@@ -66,7 +66,7 @@ public class EnemyController : MonoBehaviour
             }
         }
     }
-
+*/
     protected virtual void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Wall"))
@@ -74,6 +74,16 @@ public class EnemyController : MonoBehaviour
             enemyRb.velocity = Vector2.Reflect(prevVelocity, other.contacts[0].normal);
             transform.up = enemyRb.velocity;
             StartCoroutine(stuckToWall());
+        }
+
+        if (other.gameObject.CompareTag("Bullet"))
+        {
+            Destroy(other.gameObject);
+            if (hitPoints > 0)
+            {
+                hitPoints -= 1;
+                enemyHit.Play();
+            }
         }
     }
 

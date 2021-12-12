@@ -6,7 +6,7 @@ public class SpawnEnemies : MonoBehaviour
 {
     private int WaveSize, sizes;
     public int ticks;
-    public GameObject small, medium, large, danger, player;
+    public GameObject small, medium, large, danger, bomb, player;
     public GameObject[] ToSpawn;   
     public List<Vector2> SpawnPoints, Corners;
     public float IntervalTimer = 2.5f;
@@ -105,6 +105,11 @@ public class SpawnEnemies : MonoBehaviour
                         specialEnemy = SpawnDangerSlime();
                         setIgnoreWalls(specialEnemy);
                     }
+                    if (specialSpawnChance % 6 == 0)
+                    {
+                        specialEnemy = SpawnBombSlime();
+                        setIgnoreWalls(specialEnemy);
+                    }
                 }
 
                 IntervalTimer = CurrTimer;
@@ -113,12 +118,48 @@ public class SpawnEnemies : MonoBehaviour
         }
     }
 
-    private GameObject SpawnDangerSlime ()
+    private GameObject SpawnDangerSlime()
     {
         int n = Random.Range(0, Corners.Count);
         Vector2 SpawnPos = Corners[n];
 
         return Instantiate(danger, SpawnPos, transform.rotation);
+    }
+
+    private GameObject SpawnBombSlime()
+    {
+        SpawnPoints.Add(new Vector2(10.0f, (Random.Range(3.75f, -3.75f))));
+                    SpawnPoints.Add(new Vector2(-10.0f, (Random.Range(3.75f, -3.75f))));
+                    SpawnPoints.Add(new Vector2((Random.Range(7.5f, -7.5f)), 6.0f));
+                    SpawnPoints.Add(new Vector2((Random.Range(7.5f, -7.5f)), -6.0f));
+
+                    int n = Random.Range(0, SpawnPoints.Count);
+                    Vector2 SpawnPos = SpawnPoints[n];
+                    SpawnPoints.Clear();
+                    float UBAngle = 0.0f, LBAngle = 0.0f;
+
+                    switch (n)
+                    {
+                        case 0:
+                            LBAngle = 60.0f;
+                            UBAngle = 120.0f;
+                            break;
+                        case 1:
+                            LBAngle = 240.0f;
+                            UBAngle = 300.0f;
+                            break;
+                        case 2:
+                            LBAngle = 150.0f;
+                            UBAngle = 210.0f;
+                            break;
+                        case 3:
+                            LBAngle = 330.0f;
+                            UBAngle = 390.0f;
+                            break;
+                    }
+                    
+                    Quaternion rotation = Quaternion.Euler(0, 0, Random.Range(LBAngle, UBAngle));
+                    return  Instantiate(bomb, SpawnPos, rotation);              
     }
 
     private void setIgnoreWalls (GameObject o) 

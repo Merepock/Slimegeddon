@@ -18,6 +18,7 @@ TagManager:
   - HealthPickup
   - GhostPickup
   - WipePickup
+  - MissilePickup
   layers:
   - Default
   - TransparentFX

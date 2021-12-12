@@ -19,5 +19,15 @@ public class DangerSlimeBehaviour : EnemyController
             GameObject.Find("Player").GetComponent<PlayerController>().health = 0;
             Destroy(gameObject);
         }
+
+        if (other.gameObject.CompareTag("Bullet"))
+        {
+            Destroy(other.gameObject);
+            if (hitPoints > 0)
+            {
+                hitPoints -= 1;
+                enemyHit.Play();
+            }
+        }
     }
 }
