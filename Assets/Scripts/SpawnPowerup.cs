@@ -22,7 +22,7 @@ public class SpawnPowerup : MonoBehaviour
             {
                 int chance = Random.Range(0, 21);
                 
-                if (chance % 5 == 0)
+                if (chance % 3 == 0)
                 {
                     Instantiate(missileRestock, new Vector2(Random.Range(-9, 9), Random.Range(-5, 5)), transform.rotation);
                 }

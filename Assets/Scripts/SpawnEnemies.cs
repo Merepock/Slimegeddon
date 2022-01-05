@@ -99,10 +99,7 @@ public class SpawnEnemies : MonoBehaviour
 
     private GameObject SpawnDangerSlime()
     {
-        int n = Random.Range(0, Corners.Count);
-        Vector2 SpawnPos = Corners[n];
-
-        return Instantiate(danger, SpawnPos, transform.rotation);
+        return Instantiate(danger, Corners[Random.Range(0, Corners.Count)], transform.rotation);
     }
 
     private GameObject SpawnBombSlime()
