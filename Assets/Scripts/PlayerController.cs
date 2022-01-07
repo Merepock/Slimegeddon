@@ -200,6 +200,7 @@ public class PlayerController : MonoBehaviour
             }
             ghostSound();
             Destroy(collision.gameObject);
+            CanTakeDamage = false;
             this.GetComponent<Collider2D>().isTrigger = true;
             temporaryImmunity = StartCoroutine(tempImmune(12.0f));         
         }
