@@ -7,8 +7,8 @@ public class PlayerController : MonoBehaviour
     private AudioSource SFX;
     public AudioClip[] effects;
     public Text ScoreText, HealthText, MissileNumber;
-    public GameObject GameOverScreen, projectile, missile;
-    public int score, health, currScore, missileCount;
+    public GameObject GameOverScreen, projectile, missile, heart;
+    public int score, health, currScore, currHealth, missileCount;
     public float playerSpeed, shootVolume, explosionVolume;
     private Rigidbody2D rb2d;
     public bool CanTakeDamage;
@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         health = 5;
         missileCount = 5;
-        HealthText.text = "HP: " + health.ToString ();
+        HealthText.text = "Lives: ";
         score = 0;
         CanTakeDamage = true;
     }
@@ -61,8 +61,14 @@ public class PlayerController : MonoBehaviour
             addScoreSound();
             currScore = score;
         }
+
+        if(currHealth != health)
+        {
+            updateHealthBar();
+            currHealth = health;
+        }
+
         ScoreText.text = "Score: " + score.ToString();
-        HealthText.text = "HP: " + health.ToString();
         MissileNumber.text = "X" + missileCount.ToString();
 
         if (health > 0)
@@ -85,6 +91,18 @@ public class PlayerController : MonoBehaviour
         }       
 
         checkOutOfBounds();
+    }
+
+    void updateHealthBar() 
+    {
+        foreach (Transform child in HealthText.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+        for(int i = 0; i < health; i++)
+        {
+            GameObject hitPoint = Instantiate(heart, HealthText.transform);
+        }
     }
 
     void checkOutOfBounds()
