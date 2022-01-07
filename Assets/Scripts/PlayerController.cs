@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
         this.GetComponent<SpriteRenderer>().color = new Color(0, 132, 1, 0.5F);
         yield return new WaitForSeconds(timer);
         this.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 255);
-        this.GetComponent<Collider2D>().enabled = true;
+        this.GetComponent<Collider2D>().isTrigger = false;
         CanTakeDamage = true;
         yield break;
     }
@@ -200,7 +200,7 @@ public class PlayerController : MonoBehaviour
             }
             ghostSound();
             Destroy(collision.gameObject);
-            this.GetComponent<Collider2D>().enabled = false;
+            this.GetComponent<Collider2D>().isTrigger = true;
             temporaryImmunity = StartCoroutine(tempImmune(12.0f));         
         }
 
@@ -211,9 +211,9 @@ public class PlayerController : MonoBehaviour
             GameObject[] activeEnemies = GameObject.FindGameObjectsWithTag("Enemy");
             if (activeEnemies.Length != 0)
             {
-                for (int i = 0; i < activeEnemies.Length; i++)
+                foreach (GameObject enemy in activeEnemies)
                 {
-                    Destroy(activeEnemies[i]);
+                    Destroy(enemy.gameObject);
                 }
             }
             
