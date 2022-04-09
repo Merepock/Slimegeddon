@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -5541266371945410940}
   m_Layer: 11
   m_Name: WipePowerup
-  m_TagString: WipePickup
+  m_TagString: Pickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

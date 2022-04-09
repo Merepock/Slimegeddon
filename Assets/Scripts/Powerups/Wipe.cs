@@ -6,7 +6,10 @@ public class Wipe : Powerup
 {
     protected override void OnTriggerEnter2D(Collider2D other)
     {
-        Activate();
+        if(other.CompareTag("Player"))
+        {
+            Activate();
+        }
     }
 
     protected override void Activate()
