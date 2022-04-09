@@ -18,7 +18,13 @@ public class Powerup : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
-            StartCoroutine(onPickup());
+            /*
+            If theres already a powerup active
+            Get it from the player controller
+            Stop its coroutine
+            And call its deactivate method
+            */
+            Activate();
         }
     }
     
@@ -32,4 +38,7 @@ public class Powerup : MonoBehaviour
     {
         yield return new WaitForSeconds(duration);
     } 
+
+    protected virtual void Activate(){}
+    protected virtual void Deactivate(){}
 }

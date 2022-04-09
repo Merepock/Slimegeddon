@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GhostMode : Powerup
 {
-    protected override IEnumerator onPickup()
+    protected override void Activate()
     {
         if(playerController.temporaryImmunity != null) 
         {
@@ -17,13 +17,21 @@ public class GhostMode : Powerup
         player.GetComponent<Collider2D>().isTrigger = true;
         player.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0.5F);
 
-        disableGraphics();
-        yield return new WaitForSeconds(duration);
+        StartCoroutine(onPickup());
+    }
 
+    protected override void Deactivate()
+    {
         player.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 255);
         player.GetComponent<Collider2D>().isTrigger = false;
         playerController.CanTakeDamage = true;
+    }
 
+    protected override IEnumerator onPickup()
+    {
+        disableGraphics();
+        yield return new WaitForSeconds(duration);
+        Deactivate();
         Destroy(gameObject);
     }
 }

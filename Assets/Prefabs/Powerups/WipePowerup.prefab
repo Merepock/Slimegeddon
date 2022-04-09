@@ -127,4 +127,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   duration: 0.001
+  player: {fileID: 0}
   playerController: {fileID: 0}

@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class Heal : Powerup
 {
-    protected override IEnumerator onPickup()
+    protected override void Activate()
     {
         playerController.playSound(3);
         if(playerController.health < 5)
         {
             playerController.health++;
         }
-        disableGraphics();
-        yield return new WaitForSeconds(duration);
         Destroy(gameObject);
     }
 }

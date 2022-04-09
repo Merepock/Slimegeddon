@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Wipe : Powerup
 {
-    protected override IEnumerator onPickup()
+    protected override void Activate()
     {
         playerController.playSound(5);
         GameObject[] activeEnemies = GameObject.FindGameObjectsWithTag("Enemy");
@@ -15,8 +15,6 @@ public class Wipe : Powerup
                 Destroy(enemy.gameObject);
             }
         }
-        disableGraphics();
-        yield return new WaitForSeconds(duration);
         Destroy(gameObject);
     }
 }
