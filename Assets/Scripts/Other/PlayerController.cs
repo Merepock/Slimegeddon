@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     public bool CanTakeDamage;
     public Coroutine temporaryImmunity = null;
     private Animator anim;
+    public Powerup activePowerup = null;
 
     public IEnumerator tempImmune(float timer)
     {

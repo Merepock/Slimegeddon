@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Wipe : Powerup
 {
+    protected override void OnTriggerEnter2D(Collider2D other)
+    {
+        Activate();
+    }
+
     protected override void Activate()
     {
         playerController.playSound(5);

@@ -17,6 +17,7 @@ public class GhostMode : Powerup
         player.GetComponent<Collider2D>().isTrigger = true;
         player.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0.5F);
 
+        playerController.activePowerup = player.AddComponent<GhostMode>();
         StartCoroutine(onPickup());
     }
 
@@ -25,6 +26,7 @@ public class GhostMode : Powerup
         player.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 255);
         player.GetComponent<Collider2D>().isTrigger = false;
         playerController.CanTakeDamage = true;
+        Destroy(player.GetComponent<GhostMode>());
     }
 
     protected override IEnumerator onPickup()

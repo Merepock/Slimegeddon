@@ -14,16 +14,14 @@ public class Powerup : MonoBehaviour
         playerController = player.GetComponent<PlayerController>();
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    protected virtual void OnTriggerEnter2D(Collider2D other)
     {
         if(other.CompareTag("Player"))
         {
-            /*
-            If theres already a powerup active
-            Get it from the player controller
-            Stop its coroutine
-            And call its deactivate method
-            */
+            if(playerController.activePowerup != null)
+            {
+                playerController.activePowerup.Deactivate();
+            }
             Activate();
         }
     }
