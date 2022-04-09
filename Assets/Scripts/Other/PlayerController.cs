@@ -130,11 +130,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private bool powerupActive () 
-    {
-        return true;
-    }
-
     void lookAtMouse()
     {
         Vector3 MousePos = Input.mousePosition;
