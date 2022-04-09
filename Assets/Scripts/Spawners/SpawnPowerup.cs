@@ -22,11 +22,10 @@ public class SpawnPowerup : MonoBehaviour
             {
                 int chance = Random.Range(0, 21);
                 
-                if (chance % 3 == 0)
+                if (chance % 2 == 0)
                 {
                     Instantiate(missileRestock, new Vector2(Random.Range(-9, 9), Random.Range(-5, 5)), transform.rotation);
                 }
-
                 if (chance % 10 == 0)
                 {
                     powerUp = Instantiate(wipePowerup, new Vector2(Random.Range(-9, 9), Random.Range(-5, 5)), transform.rotation);

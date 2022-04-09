@@ -52,21 +52,7 @@ public class EnemyController : MonoBehaviour
             destroy();
         }
     }
-
-/*
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Bullet"))
-        {
-            Destroy(other.gameObject);
-            if (hitPoints > 0)
-            {
-                hitPoints -= 1;
-                enemyHit.Play();
-            }
-        }
-    }
-*/
+    
     protected virtual void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Wall"))

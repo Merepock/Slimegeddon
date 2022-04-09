@@ -12,15 +12,15 @@ public class PlayerController : MonoBehaviour
     public float playerSpeed, shootVolume, explosionVolume;
     private Rigidbody2D rb2d;
     public bool CanTakeDamage;
-    private Coroutine temporaryImmunity = null;
+    public Coroutine temporaryImmunity = null;
     private Animator anim;
 
-    private IEnumerator tempImmune(float timer)
+    public IEnumerator tempImmune(float timer)
     {
+        CanTakeDamage = false;
         this.GetComponent<SpriteRenderer>().color = new Color(0, 132, 1, 0.5F);
         yield return new WaitForSeconds(timer);
         this.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 255);
-        this.GetComponent<Collider2D>().isTrigger = false;
         CanTakeDamage = true;
         yield break;
     }
@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour
         lookAtMouse();
         if(currScore != score)
         {
-            addScoreSound();
+            playSound(1);
             currScore = score;
         }
 
@@ -141,20 +141,20 @@ public class PlayerController : MonoBehaviour
 
     void shootBullet(Quaternion angle)
     {
-        shootSound();
+        playSound(2);
         Instantiate(projectile, transform.position, angle);
     }
 
     void shootMissile(Quaternion angle)
     {
-        missileSound();
+        playSound(6);
         Instantiate(missile, transform.position, angle);
     }
 
     public void takeDamage()
     {
         health -= 1;
-        playerHurtSound();
+        playSound(0);
         CanTakeDamage = false;
         temporaryImmunity = StartCoroutine(tempImmune(2.0f));
     }
@@ -175,54 +175,12 @@ public class PlayerController : MonoBehaviour
         } 
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
+    public void playSound(int i)
     {
-        if (collision.gameObject.CompareTag("HealthPickup"))
-        {
-            healSound();
-            Destroy(collision.gameObject);
-            if (health < 5)
-            {               
-                health += 1;                
-            }   
-        }
-
-        if (collision.gameObject.CompareTag("GhostPickup"))
-        {
-            if(temporaryImmunity != null)
-            {
-                StopCoroutine(temporaryImmunity);
-            }
-            ghostSound();
-            Destroy(collision.gameObject);
-            CanTakeDamage = false;
-            this.GetComponent<Collider2D>().isTrigger = true;
-            temporaryImmunity = StartCoroutine(tempImmune(12.0f));         
-        }
-
-        if (collision.gameObject.CompareTag("WipePickup"))
-        {
-            deathSound();
-            Destroy(collision.gameObject);
-            GameObject[] activeEnemies = GameObject.FindGameObjectsWithTag("Enemy");
-            if (activeEnemies.Length != 0)
-            {
-                foreach (GameObject enemy in activeEnemies)
-                {
-                    Destroy(enemy.gameObject);
-                }
-            }
-            
-        }
-
-        if (collision.gameObject.CompareTag("MissilePickup"))
-        {
-            healSound();
-            Destroy(collision.gameObject);
-            missileCount += Random.Range(3, 6);
-        }
+        SFX.clip = effects[i];
+        SFX.PlayOneShot(SFX.clip);
     }
-
+    /*
     void playerHurtSound()
     {
         SFX.clip = effects[0];
@@ -267,5 +225,6 @@ public class PlayerController : MonoBehaviour
         SFX.volume = shootVolume;
         SFX.PlayOneShot(SFX.clip);
     }
+    */
 }
 
