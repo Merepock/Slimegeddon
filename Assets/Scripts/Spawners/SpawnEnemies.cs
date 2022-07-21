@@ -87,7 +87,7 @@ public class SpawnEnemies : MonoBehaviour
 
                 GameObject specialEnemy;
 
-                if (specialSpawnChance < 10)
+                if (specialSpawnChance < 5)
                 {
                     specialEnemy = SpawnDangerSlime();
                     setIgnoreWalls(specialEnemy);
