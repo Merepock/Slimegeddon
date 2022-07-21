@@ -24,7 +24,7 @@ public class GhostMode : Powerup
 
         playerController.activePowerup = player.AddComponent<GhostMode>();
         Destroy(GetComponent<DestroyAfterTimer>());
-        StartCoroutine(onPickup());
+        playerController.powerupDuration = StartCoroutine(onPickup());
     }
 
     protected override void Deactivate()

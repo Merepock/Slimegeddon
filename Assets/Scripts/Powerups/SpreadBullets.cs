@@ -15,7 +15,7 @@ public class SpreadBullets : Powerup
         playerController.spreadBullets = true;
         playerController.activePowerup = player.AddComponent<SpreadBullets>();
         Destroy(GetComponent<DestroyAfterTimer>());
-        StartCoroutine(onPickup());
+        playerController.powerupDuration = StartCoroutine(onPickup());
     }
 
     protected override void Deactivate()

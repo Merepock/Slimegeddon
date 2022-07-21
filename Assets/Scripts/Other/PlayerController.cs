@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     public float playerSpeed, shootVolume, explosionVolume;
     private Rigidbody2D rb2d;
     public bool canTakeDamage, spreadBullets;
-    public Coroutine temporaryImmunity = null;
+    public Coroutine temporaryImmunity = null, powerupDuration = null;
     private Animator anim;
     public Powerup activePowerup = null;
 

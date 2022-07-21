@@ -21,6 +21,7 @@ public class Powerup : MonoBehaviour
             if(playerController.activePowerup != null)
             {
                 playerController.activePowerup.Deactivate();
+                StopCoroutine(playerController.powerupDuration);    
             }
             Activate();
         }
