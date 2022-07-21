@@ -709,6 +709,8 @@ MonoBehaviour:
     type: 3}
   missileRestock: {fileID: 8744535715674537172, guid: bb47d2167ca04434c8790052d1a5f4e7,
     type: 3}
+  spreadBulletsPowerup: {fileID: 3221321852275706916, guid: b27213c77f0072e43a569c73a4711622,
+    type: 3}
 --- !u!114 &149381777
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2203,9 +2205,12 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d46cc6b66f4fe2c49856870d1f1e7177, type: 3}
   - {fileID: 8300000, guid: b2dbcbf93eb1edc4aa9579833df4f484, type: 3}
   - {fileID: 8300000, guid: 71c2c0e8ae6c44d459723bef91c9bbbf, type: 3}
-  ScoreText: {fileID: 1956104390}
-  HealthText: {fileID: 169570967}
-  MissileNumber: {fileID: 1378469207}
+  - {fileID: 8300000, guid: 714e2341ba958b84ca6d3fc862c09295, type: 3}
+  - {fileID: 8300000, guid: 9221a68be6ff1544091e192edb2100df, type: 3}
+  - {fileID: 8300000, guid: a37b1237728b8ae4e8a09ef13255bf14, type: 3}
+  scoreText: {fileID: 1956104390}
+  healthText: {fileID: 169570967}
+  missileNumber: {fileID: 1378469207}
   GameOverScreen: {fileID: 656200560}
   projectile: {fileID: 5901712141901265160, guid: c54fcdcc1ce5c7143b0cbb39013dcf9d,
     type: 3}
@@ -2219,7 +2224,9 @@ MonoBehaviour:
   playerSpeed: 5
   shootVolume: 0.5
   explosionVolume: 1
-  CanTakeDamage: 0
+  canTakeDamage: 0
+  spreadBullets: 0
+  activePowerup: {fileID: 0}
 --- !u!50 &879895960
 Rigidbody2D:
   serializedVersion: 4

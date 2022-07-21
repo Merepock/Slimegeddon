@@ -5,6 +5,7 @@ using UnityEngine;
 public class BombSlimeBehaviour : EnemyController
 {
     public GameObject explosion;
+    
     protected override void destroy()
     {
         GameObject blast = Instantiate(explosion, transform.position, Quaternion.Euler(0, 0, 0));

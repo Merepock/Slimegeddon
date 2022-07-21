@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class DangerSlimeBehaviour : EnemyController
 {
+    private Vector2 playerPos;
+    private Vector2 direction;
+
     protected override void FixedUpdate()
     {
-        Vector2 playerPos = GameObject.Find("Player").transform.position;
-        Vector2 direction = new Vector2(playerPos.x - transform.position.x, playerPos.y - transform.position.y);
+        playerPos = GameObject.Find("Player").transform.position;
+        direction = new Vector2(playerPos.x - transform.position.x, playerPos.y - transform.position.y);
         transform.up = direction;
         enemyRb.velocity = transform.up * moveSpeed;
     }

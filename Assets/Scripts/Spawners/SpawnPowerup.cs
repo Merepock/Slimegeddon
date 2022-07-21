@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpawnPowerup : MonoBehaviour
 {
     public float spawnTimer = 20.0f;
-    public GameObject powerUp, heartCapsule, ghostPowerup, wipePowerup, missileRestock;
+    public GameObject powerUp, heartCapsule, ghostPowerup, wipePowerup, missileRestock, spreadBulletsPowerup;
     private PlayerController playerStats;
 
     void Start()
@@ -33,6 +33,10 @@ public class SpawnPowerup : MonoBehaviour
                 else if (chance % 4 == 0)
                 {
                     powerUp = Instantiate(ghostPowerup, new Vector2(Random.Range(-9, 9), Random.Range(-5, 5)), transform.rotation);
+                }
+                else if (chance % 3 == 0)
+                {
+                    powerUp = Instantiate(spreadBulletsPowerup, new Vector2(Random.Range(-9, 9), Random.Range(-5, 5)), transform.rotation);
                 }
                 else
                 {

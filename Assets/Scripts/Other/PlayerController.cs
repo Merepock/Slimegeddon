@@ -6,23 +6,23 @@ public class PlayerController : MonoBehaviour
 {
     private AudioSource SFX;
     public AudioClip[] effects;
-    public Text ScoreText, HealthText, MissileNumber;
+    public Text scoreText, healthText, missileNumber;
     public GameObject GameOverScreen, projectile, missile, heart;
     public int score, health, currScore, currHealth, missileCount;
     public float playerSpeed, shootVolume, explosionVolume;
     private Rigidbody2D rb2d;
-    public bool CanTakeDamage;
+    public bool canTakeDamage, spreadBullets;
     public Coroutine temporaryImmunity = null;
     private Animator anim;
     public Powerup activePowerup = null;
 
     public IEnumerator tempImmune(float timer)
     {
-        CanTakeDamage = false;
+        canTakeDamage = false;
         this.GetComponent<SpriteRenderer>().color = new Color(0, 132, 1, 0.5F);
         yield return new WaitForSeconds(timer);
         this.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 255);
-        CanTakeDamage = true;
+        canTakeDamage = true;
         yield break;
     }
 
@@ -34,9 +34,10 @@ public class PlayerController : MonoBehaviour
         rb2d = GetComponent<Rigidbody2D>();
         health = 5;
         missileCount = 5;
-        HealthText.text = "Lives: ";
+        healthText.text = "Lives: ";
         score = 0;
-        CanTakeDamage = true;
+        canTakeDamage = true;
+        spreadBullets = false;
     }
 
     void FixedUpdate()
@@ -69,8 +70,8 @@ public class PlayerController : MonoBehaviour
             currHealth = health;
         }
 
-        ScoreText.text = "Score: " + score.ToString();
-        MissileNumber.text = "X" + missileCount.ToString();
+        scoreText.text = "Score: " + score.ToString();
+        missileNumber.text = "X" + missileCount.ToString();
 
         if (health > 0)
         {
@@ -96,13 +97,13 @@ public class PlayerController : MonoBehaviour
 
     void updateHealthBar() 
     {
-        foreach (Transform child in HealthText.transform)
+        foreach (Transform child in healthText.transform)
         {
             GameObject.Destroy(child.gameObject);
         }
         for(int i = 0; i < health; i++)
         {
-            GameObject hitPoint = Instantiate(heart, HealthText.transform);
+            GameObject hitPoint = Instantiate(heart, healthText.transform);
         }
     }
 
@@ -140,23 +141,38 @@ public class PlayerController : MonoBehaviour
         transform.up = direction;
     }
 
-    void shootBullet(Quaternion angle)
+    void shootBullet(Quaternion quat)
     {
-        playSound(2);
-        Instantiate(projectile, transform.position, angle);
+        if (spreadBullets)
+        {
+            playSound(8);
+            Vector3 currRotation = quat.eulerAngles;
+            currRotation -= new Vector3(0, 0, 40);
+            for (int i = 0;  i < 5; i++)
+            {
+                Instantiate(projectile, transform.position, Quaternion.Euler(currRotation));
+                currRotation += new Vector3(0, 0, 20);
+            }
+        }
+        else
+        {
+            playSound(2);
+            Instantiate(projectile, transform.position, quat);
+        }
+        
     }
 
-    void shootMissile(Quaternion angle)
+    void shootMissile(Quaternion quat)
     {
         playSound(6);
-        Instantiate(missile, transform.position, angle);
+        Instantiate(missile, transform.position, quat);
     }
 
     public void takeDamage()
     {
         health -= 1;
         playSound(0);
-        CanTakeDamage = false;
+        canTakeDamage = false;
         temporaryImmunity = StartCoroutine(tempImmune(2.0f));
     }
 
@@ -165,7 +181,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {            
-            if (CanTakeDamage == true)
+            if (canTakeDamage == true)
             {
                 if (health > 0)
                 {

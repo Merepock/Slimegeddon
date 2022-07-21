@@ -32,7 +32,7 @@ public class Explosion : MonoBehaviour
 
         if (other.gameObject.CompareTag("Player"))
         {
-            if (!friendly && p.CanTakeDamage)
+            if (!friendly && p.canTakeDamage)
             {
                 p.takeDamage();
             }

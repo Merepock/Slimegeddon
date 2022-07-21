@@ -26,10 +26,6 @@ public class SaveScores : MonoBehaviour
         if (PlayerName.text != "")
         {
             string path = Application.dataPath + "/" + "ScoreSheet.txt";
-           /* if (!File.Exists(path))
-            {
-                File.Create(path);
-            } */
             StreamWriter saver = File.AppendText(path);
             File.SetAttributes(path, FileAttributes.Hidden);
             saver.WriteLine(PlayerName.text + "," + playerScore.score.ToString());
@@ -56,15 +52,12 @@ public class SaveScores : MonoBehaviour
         List<KeyValuePair<string, int>> entriesOrdered = scores.OrderByDescending(i => i.Value).ToList(); //Sorts the entries into descending order and appends them to a new list
 
         string path2 = Application.dataPath + "/" + "Leaderboard.txt";
-        //File.SetAttributes(path2, FileAttributes.Normal);
         StreamWriter writer = new StreamWriter(path2);
         for (int i = 0; i < entriesOrdered.Count; i++)
         {
             writer.WriteLine(entriesOrdered[i]); //This list is written to a separate text file, which will be read to a leaderboards menu.              
         }
         writer.Flush();
-        writer.Close();
-        //File.SetAttributes(path2, FileAttributes.Hidden);
-        
+        writer.Close();    
     }
 }

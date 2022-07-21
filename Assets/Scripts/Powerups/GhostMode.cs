@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class GhostMode : Powerup
 {
+    void Awake()
+    {
+        this.duration = 12f;
+    }
+
     protected override void Activate()
     {
         if(playerController.temporaryImmunity != null) 
@@ -13,11 +18,12 @@ public class GhostMode : Powerup
 
         playerController.playSound(4);
 
-        playerController.CanTakeDamage = false;
+        playerController.canTakeDamage = false;
         player.GetComponent<Collider2D>().isTrigger = true;
         player.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0.5F);
 
         playerController.activePowerup = player.AddComponent<GhostMode>();
+        Destroy(GetComponent<DestroyAfterTimer>());
         StartCoroutine(onPickup());
     }
 
@@ -25,8 +31,13 @@ public class GhostMode : Powerup
     {
         player.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 255);
         player.GetComponent<Collider2D>().isTrigger = false;
-        playerController.CanTakeDamage = true;
+        playerController.canTakeDamage = true;
+        playerController.playSound(7);
         Destroy(player.GetComponent<GhostMode>());
+        if(this.gameObject != player)
+        {
+            Destroy(gameObject);
+        }
     }
 
     protected override IEnumerator onPickup()
@@ -34,6 +45,5 @@ public class GhostMode : Powerup
         disableGraphics();
         yield return new WaitForSeconds(duration);
         Deactivate();
-        Destroy(gameObject);
     }
 }

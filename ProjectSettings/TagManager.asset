@@ -15,10 +15,7 @@ TagManager:
   - HealthBar
   - Background
   - Statistic
-  - HealthPickup
-  - GhostPickup
-  - WipePickup
-  - MissilePickup
+  - Pickup
   layers:
   - Default
   - TransparentFX

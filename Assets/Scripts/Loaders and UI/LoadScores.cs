@@ -15,7 +15,7 @@ public class LoadScores : MonoBehaviour
         {
             System.IO.File.WriteAllText(path, "No scores have been saved."); //Creates the text file if it is not in the game files.
         }
-        //File.SetAttributes(path, FileAttributes.Hidden);
+        
         string[] lines = File.ReadAllLines(path);
         for (int i = 0; i < lines.Length; i++)
         {
