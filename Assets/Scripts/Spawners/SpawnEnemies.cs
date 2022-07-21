@@ -4,55 +4,59 @@ using UnityEngine;
 
 public class SpawnEnemies : MonoBehaviour
 {
-    private int WaveSize, sizes;
+    private int waveSize, sizes;
     public int ticks;
     public GameObject small, medium, large, danger, bomb, player;
-    public GameObject[] ToSpawn;   
-    public List<Vector2> SpawnPoints, Corners;
-    public float IntervalTimer = 2.5f;
-    private float CurrTimer = 2.5f; //This is added to the interval timer each time it ticks and will change during the game
-    public PlayerController playerHP;
+    public GameObject[] toSpawn;   
+    public List<Vector2> spawnPoints, corners;
+    public float intervalTimer = 2.5f, specialTimer;
+    private float currentTimer = 2.5f; //This is added to the interval timer each time it ticks and will change during the game
+    public PlayerController playerController;
     
 
 
     void Start()
     {
-        Corners.Add(new Vector2(10.0f, 6.0f));
-        Corners.Add(new Vector2(10.0f, 6.0f));
-        Corners.Add(new Vector2(-10.0f, 6.0f));
-        Corners.Add(new Vector2(-10.0f, -6.0f));
+        corners.Add(new Vector2(10.0f, 6.0f)); //Top right
+        corners.Add(new Vector2(10.0f, -6.0f)); //Bottom Right
+        corners.Add(new Vector2(-10.0f, 6.0f)); //Top Left
+        corners.Add(new Vector2(-10.0f, -6.0f)); //Bottom Left
 
-        WaveSize = 3;
+        waveSize = 3;
         ticks = 0;
         sizes = 0;
-        ToSpawn[0] = small;
-        ToSpawn[1] = medium;
-        ToSpawn[2] = large;
+        toSpawn[0] = small;
+        toSpawn[1] = medium;
+        toSpawn[2] = large;
         
-        playerHP = player.GetComponent<PlayerController>();
+        playerController = player.GetComponent<PlayerController>();
+
+        specialTimer = Random.Range(20f, 30f);
     }
 
     void Update()
     {
-        while (playerHP.health > 0)
+        while (playerController.health > 0)
         {
-            IntervalTimer -= Time.deltaTime;
-            if (IntervalTimer <= 0)
-            {
-                for (int i = 0; i < WaveSize; i++)
-                {
-                    SpawnPoints.Add(new Vector2(10.0f, (Random.Range(3.75f, -3.75f))));
-                    SpawnPoints.Add(new Vector2((Random.Range(7.5f, -7.5f)), 6.0f));
-                    SpawnPoints.Add(new Vector2(-10.0f, (Random.Range(3.75f, -3.75f))));
-                    SpawnPoints.Add(new Vector2((Random.Range(7.5f, -7.5f)), -6.0f));
+            intervalTimer -= Time.deltaTime;
+            specialTimer -= Time.deltaTime;
 
-                    int n = Random.Range(0, SpawnPoints.Count);
-                    Vector2 SpawnPos = SpawnPoints[n];
+            if (intervalTimer <= 0)
+            {
+                for (int i = 0; i < waveSize; i++)
+                {
+                    spawnPoints.Add(new Vector2(10.0f, (Random.Range(3.75f, -3.75f))));
+                    spawnPoints.Add(new Vector2((Random.Range(7.5f, -7.5f)), 6.0f));
+                    spawnPoints.Add(new Vector2(-10.0f, (Random.Range(3.75f, -3.75f))));
+                    spawnPoints.Add(new Vector2((Random.Range(7.5f, -7.5f)), -6.0f));
+
+                    int n = Random.Range(0, spawnPoints.Count);
+                    Vector2 SpawnPos = spawnPoints[n];
                     
                     Quaternion rotation = Quaternion.Euler(0, 0, Random.Range(60 + (n * 90), 120 + (n * 90)));
-                    GameObject Enemy = Instantiate(ToSpawn[UnityEngine.Random.Range(0, sizes)], SpawnPos, rotation);
+                    GameObject Enemy = Instantiate(toSpawn[UnityEngine.Random.Range(0, sizes)], SpawnPos, rotation);
                     setIgnoreWalls(Enemy);
-                    SpawnPoints.Clear();
+                    spawnPoints.Clear();
                 }
 
                 ticks += 1;
@@ -64,54 +68,86 @@ public class SpawnEnemies : MonoBehaviour
                         break;
                     case 30:
                         sizes = 3;
-                        CurrTimer += 0.5f;
+                        currentTimer += 0.5f;
                         break;
                 }
 
                 if (ticks % 25 == 0)
                 {
-                    WaveSize += 1;
-                    CurrTimer += 0.5f;
+                    waveSize += 1;
+                    currentTimer += 0.5f;
                 }
 
-                if (ticks > 20)
-                {
-                    GameObject specialEnemy;
-                    int specialSpawnChance = Random.Range(0, 6);
-
-                    if (specialSpawnChance == 1)
-                    {
-                        specialEnemy = SpawnDangerSlime();
-                        setIgnoreWalls(specialEnemy);
-                    }
-                    if (specialSpawnChance % 6 == 0)
-                    {
-                        specialEnemy = SpawnBombSlime();
-                        setIgnoreWalls(specialEnemy);
-                    }
-                }
-
-                IntervalTimer = CurrTimer;
+                intervalTimer += currentTimer;
             }
+
+            if(specialTimer <= 0)
+            {
+                int specialSpawnChance = Random.Range(0, 31);
+
+                GameObject specialEnemy;
+
+                if (specialSpawnChance < 10)
+                {
+                    specialEnemy = SpawnDangerSlime();
+                    setIgnoreWalls(specialEnemy);
+                }
+
+                if (specialSpawnChance < 15)
+                {
+                    specialEnemy = SpawnBombSlime();
+                    setIgnoreWalls(specialEnemy);
+                }
+
+                specialTimer += Random.Range(15f, 20f);
+            }
+
             break;
         }
     }
 
     private GameObject SpawnDangerSlime()
     {
-        return Instantiate(danger, Corners[Random.Range(0, Corners.Count)], transform.rotation);
+        int idx;
+
+        Vector2 currentPosition = player.transform.position;
+
+        if(currentPosition.x >= 0)
+        {
+            if(currentPosition.y >= 0)
+            {
+                idx = 0;
+            }
+            else 
+            {
+                idx = 1;
+            }
+        }
+        else
+        {
+            if(currentPosition.y >= 0)
+            {
+                idx = 2;
+            }
+            else
+            {
+                idx = 3;
+            }
+        }
+
+        return Instantiate(danger, corners[idx], transform.rotation);
     }
 
     private GameObject SpawnBombSlime()
     {
-        SpawnPoints.Add(new Vector2(10.0f, (Random.Range(3.75f, -3.75f))));
-        SpawnPoints.Add(new Vector2((Random.Range(7.5f, -7.5f)), 6.0f));
-        SpawnPoints.Add(new Vector2(-10.0f, (Random.Range(3.75f, -3.75f))));
-        SpawnPoints.Add(new Vector2((Random.Range(7.5f, -7.5f)), -6.0f));
+        spawnPoints.Add(new Vector2(10.0f, (Random.Range(3.75f, -3.75f))));
+        spawnPoints.Add(new Vector2((Random.Range(7.5f, -7.5f)), 6.0f));
+        spawnPoints.Add(new Vector2(-10.0f, (Random.Range(3.75f, -3.75f))));
+        spawnPoints.Add(new Vector2((Random.Range(7.5f, -7.5f)), -6.0f));
 
-        int n = Random.Range(0, SpawnPoints.Count);
-        Vector2 SpawnPos = SpawnPoints[n];
-        SpawnPoints.Clear();
+        int n = Random.Range(0, spawnPoints.Count);
+        Vector2 SpawnPos = spawnPoints[n];
+        spawnPoints.Clear();
                     
         Quaternion rotation = Quaternion.Euler(0, 0, Random.Range(60 + (n * 90), 120 + (n * 90)));
         return  Instantiate(bomb, SpawnPos, rotation);              

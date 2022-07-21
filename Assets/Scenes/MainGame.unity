@@ -582,14 +582,14 @@ MonoBehaviour:
   danger: {fileID: 3303201617267644013, guid: c52030e48c7718648bad7e6d125e59b5, type: 3}
   bomb: {fileID: 5920730142308076767, guid: 5a9f86211ac7d11418ba1a08c860bffd, type: 3}
   player: {fileID: 879895956}
-  ToSpawn:
+  toSpawn:
   - {fileID: 4354771514232315829, guid: 83f6d2096fab24b4aae44fbc23ec9974, type: 3}
   - {fileID: 6226985783291765966, guid: dcf6ce9d6ab629949ab3218e7f481b0b, type: 3}
   - {fileID: 6793946004009199219, guid: 77880f21fba09194ab3e9ecc156560e9, type: 3}
-  SpawnPoints: []
-  Corners: []
-  IntervalTimer: 2.5
-  playerHP: {fileID: 879895959}
+  spawnPoints: []
+  corners: []
+  intervalTimer: 2.5
+  playerController: {fileID: 879895959}
 --- !u!82 &149381775
 AudioSource:
   m_ObjectHideFlags: 0
