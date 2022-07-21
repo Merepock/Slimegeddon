@@ -20,28 +20,32 @@ public class SpawnPowerup : MonoBehaviour
             spawnTimer -= Time.deltaTime;
             if (spawnTimer <= 0)
             {
-                int chance = Random.Range(0, 21);
+                int chance = Random.Range(0, 101);
                 
                 if (chance % 2 == 0)
                 {
                     Instantiate(missileRestock, new Vector2(Random.Range(-9, 9), Random.Range(-5, 5)), transform.rotation);
                 }
-                if (chance % 10 == 0)
+
+                if (chance <= 100 && chance > 90)
                 {
-                    powerUp = Instantiate(wipePowerup, new Vector2(Random.Range(-9, 9), Random.Range(-5, 5)), transform.rotation);
+                    powerUp = wipePowerup;
                 }
-                else if (chance % 4 == 0)
+                else if (chance <= 90 && chance > 60)
                 {
-                    powerUp = Instantiate(ghostPowerup, new Vector2(Random.Range(-9, 9), Random.Range(-5, 5)), transform.rotation);
+                    powerUp = ghostPowerup;
                 }
-                else if (chance % 3 == 0)
+                else if (chance <= 60 && chance > 50)
                 {
-                    powerUp = Instantiate(spreadBulletsPowerup, new Vector2(Random.Range(-9, 9), Random.Range(-5, 5)), transform.rotation);
+                    powerUp = spreadBulletsPowerup;
                 }
                 else
                 {
-                    powerUp = Instantiate(heartCapsule, new Vector2(Random.Range(-9, 9), Random.Range(-5, 5)), transform.rotation);
+                    powerUp = heartCapsule;
                 }
+
+                Instantiate(powerUp, new Vector2(Random.Range(-9, 9), Random.Range(-5, 5)), transform.rotation);
+
                 spawnTimer += 20.0f;
             }
             break;
